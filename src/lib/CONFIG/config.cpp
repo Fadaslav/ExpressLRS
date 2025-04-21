@@ -1094,9 +1094,9 @@ RxConfig::SetDefaults(bool commit)
                 mode = somSDA;
             }
         }
-        SetPwmChannel(ch, 512, ch, false, mode, false);
+        SetPwmChannel(ch, 512, ch, false, mode, false, false);
     }
-    SetPwmChannel(2, 0, 2, false, 0, false); // ch2 is throttle, failsafe it to 988
+    SetPwmChannel(2, 0, 2, false, 0, false, false); // ch2 is throttle, failsafe it to 988
 #endif
 
     m_config.teamraceChannel = AUX7; // CH11
@@ -1125,7 +1125,7 @@ RxConfig::SetStorageProvider(ELRS_EEPROM *eeprom)
 
 #if defined(GPIO_PIN_PWM_OUTPUTS)
 void
-RxConfig::SetPwmChannel(uint8_t ch, uint16_t failsafe, uint8_t inputCh, bool inverted, uint8_t mode, bool narrow)
+RxConfig::SetPwmChannel(uint8_t ch, uint16_t failsafe, uint8_t inputCh, bool inverted, uint8_t mode, bool narrow, bool wide)
 {
     if (ch > PWM_MAX_CHANNELS)
         return;
@@ -1137,6 +1137,7 @@ RxConfig::SetPwmChannel(uint8_t ch, uint16_t failsafe, uint8_t inputCh, bool inv
     newConfig.val.inverted = inverted;
     newConfig.val.mode = mode;
     newConfig.val.narrow = narrow;
+    newConfig.val.wide = wide;
     if (pwm->raw == newConfig.raw)
         return;
 

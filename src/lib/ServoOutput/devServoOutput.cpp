@@ -76,6 +76,10 @@ static void servoWrite(uint8_t ch, uint16_t us)
         }
         else
         {
+            if (chConfig->val.wide)
+            {
+                us = fmap(us, 988, 2012, 500, 2500);
+            }
             PWM.setMicroseconds(pwmChannels[ch], us / (chConfig->val.narrow + 1));
         }
     }
